@@ -20,7 +20,7 @@ namespace _2048WinFormsApp
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    var newLabel = CreateLabel(i, j, i * mapSize + j);
+                    var newLabel = CreateLabel(i, j);
                     Controls.Add(newLabel);
                     LabelsMap[i,j]= newLabel;
 
@@ -28,14 +28,14 @@ namespace _2048WinFormsApp
             }
             
         }
-       public Label CreateLabel(int indexRow ,int indexColumn,int number)
+       public Label CreateLabel(int indexRow ,int indexColumn)
         {
             var label = new Label(); 
             label.BackColor = SystemColors.AppWorkspace;
             label.Font = new Font("Segoe UI Emoji", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             
             label.Name = "digitLabel";
-            label.Text = number.ToString();
+            label.Text = "2";
             label.Size = new Size(70, 70);
             int x = 10 + indexColumn * (70 + 6);
             int y = 70 + indexRow * (70 + 6);
