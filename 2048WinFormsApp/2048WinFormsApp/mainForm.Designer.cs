@@ -36,8 +36,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Name = "mainForm";
-            Text = "Form1";
+            Text = "2048";
             Load += Form1_Load;
+            KeyDown += mainForm_KeyDown;
             ResumeLayout(false);
         }
 
