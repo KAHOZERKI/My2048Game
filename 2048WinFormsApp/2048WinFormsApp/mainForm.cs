@@ -4,14 +4,16 @@ namespace _2048WinFormsApp
     {
         private Label[,] LabelsMap;
         private const int mapSize= 4;
+        private static Random random = new Random();
         public mainForm()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             initMap();
+            GenerateNumber();
         }
         private void  initMap()
         {
@@ -26,7 +28,6 @@ namespace _2048WinFormsApp
 
                 }
             }
-            
         }
        public Label CreateLabel(int indexRow ,int indexColumn)
         {
@@ -35,7 +36,6 @@ namespace _2048WinFormsApp
             label.Font = new Font("Segoe UI Emoji", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             
             label.Name = "digitLabel";
-            label.Text = "2";
             label.Size = new Size(70, 70);
             int x = 10 + indexColumn * (70 + 6);
             int y = 70 + indexRow * (70 + 6);
@@ -43,5 +43,20 @@ namespace _2048WinFormsApp
             label.TextAlign = ContentAlignment.MiddleCenter;
             return label;
         } 
+        private void GenerateNumber()
+        {
+            var randomNumberLabel = random.Next(mapSize*mapSize);
+            var indexRow = randomNumberLabel / mapSize;
+            var indexColumn = randomNumberLabel % mapSize;     
+            if(LabelsMap[indexRow,indexColumn].Text == string.Empty)
+            {
+                LabelsMap[indexRow, indexColumn].Text = GenerateDigit();
+            }
+        }
+        private string GenerateDigit()
+        {   
+            int[] numbers= { 2, 4 };
+           return  numbers[random.Next(0,numbers.Length)].ToString();
+        }
     }
 }
