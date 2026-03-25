@@ -2,7 +2,7 @@ namespace _2048WinFormsApp
 {
     public partial class mainForm : Form
     {
-        private Label[,] LabelsMap;
+        private Label[,] labelsMap;
         private const int mapSize = 4;
         private static Random random = new Random();
         public mainForm()
@@ -17,14 +17,14 @@ namespace _2048WinFormsApp
         }
         private void initMap()
         {
-            LabelsMap = new Label[mapSize, mapSize];
+            labelsMap = new Label[mapSize, mapSize];
             for (int i = 0; i < mapSize; i++)
             {
                 for (int j = 0; j < mapSize; j++)
                 {
                     var newLabel = CreateLabel(i, j);
                     Controls.Add(newLabel);
-                    LabelsMap[i, j] = newLabel;
+                    labelsMap[i, j] = newLabel;
 
                 }
             }
@@ -50,7 +50,7 @@ namespace _2048WinFormsApp
             {
                 for (int c = 0; c < mapSize; c++)
                 {
-                    if (LabelsMap[r, c].Text == string.Empty)
+                    if (labelsMap[r, c].Text == string.Empty)
                     {
                         emptyCells.Add((r, c));
                     }
@@ -61,7 +61,7 @@ namespace _2048WinFormsApp
                 int randomIndex = random.Next(0, emptyCells.Count);
 
                 var (targetRow, targetCol) = emptyCells[randomIndex]; // а вот тут магическая деконструкция кортежа
-                LabelsMap[targetRow, targetCol].Text = GenerateDigit();
+                labelsMap[targetRow, targetCol].Text = GenerateDigit();
             }
         }
         private string GenerateDigit()
@@ -69,26 +69,130 @@ namespace _2048WinFormsApp
             int[] numbers = { 2, 4 };
             return numbers[random.Next(0, numbers.Length)].ToString();
         }
+        private void ProcessLine(Label[] line)
+        {
+            for (int j = mapSize - 1; j >= 0; j--)
+            {
+                if (line[j].Text != string.Empty)
+                {
+                    for (int k = j - 1; k >= 0; k--)
+                    {
+                        if (line[k].Text != string.Empty)
+                        {
+                            if (line[j].Text == line[k].Text)
+                            {
+                                var number = int.Parse(line[j].Text);
+                                line[j].Text = (number * 2).ToString();
+                                line[k].Text = string.Empty;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            for (int j = mapSize - 1; j >= 0; j--)
+            {
+                if (line[j].Text == string.Empty)
+                {
+                    for (int k = j - 1; k >= 0; k--)
+                    {
+                        if (line[k].Text != string.Empty)
+                        {
+                            line[j].Text = line[k].Text;
+                            line[k].Text = string.Empty;
+                            break; 
+                        }
+                    }
+                }
+            }
+        }
 
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Right)
+            bool moved = false;
+
+            for (int i = 0; i < mapSize; i++)
             {
-                MessageBox.Show("Правая стрелка нажата");
-            }
-            if (e.KeyCode == Keys.Left)
-            {
-                MessageBox.Show("левая стрелка нажата");
-            }
-            if (e.KeyCode == Keys.Up)
-            {
-                MessageBox.Show("Верхняя стрелка нажата");
-            }
-            if (e.KeyCode == Keys.Down)
-            {
-                MessageBox.Show("Нижняя стрелка нажата");
+                Label[] line = new Label[mapSize];
+
+                for (int j = 0; j < mapSize; j++)
+                {
+                    // Выбираем ячейки в зависимости от нажатой клавиши
+                    if (e.KeyCode == Keys.Right) line[j] = labelsMap[i, j];          // Строка i, слева направо
+                    else if (e.KeyCode == Keys.Left) line[j] = labelsMap[i, 3 - j];  // Строка i, справо налево (реверс)
+                    else if (e.KeyCode == Keys.Down) line[j] = labelsMap[j, i];      // Столбец i, сверху вниз
+                    else if (e.KeyCode == Keys.Up) line[j] = labelsMap[3 - j, i];    // Столбец i, снизу вверх
+                }
+
+                // Если нажата одна из стрелок, обрабатываем "линию"
+                if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
+                    e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+                {
+                    ProcessLine(line);
+                    moved = true;
+                }
             }
 
+            if (moved) GenerateNumber();
+        }
+        /*   if (e.KeyCode == Keys.Right)
+           {
+               for (int i = 0; i < mapSize; i++)
+               {
+                   for (int j = 0; j < mapSize; j++)
+                   {
+                       if (labelsMap[i, j].Text!= string.Empty)
+                       {
+                           for (int k = j - 1; k >= 0; k--)
+                           {
+                               if (labelsMap[i, k].Text != string.Empty)
+                               {
+                                   if (labelsMap[i, j].Text == labelsMap[i, k].Text)
+                                   { 
+                                       var number = int.Parse(labelsMap[i, j].Text);
+                                       labelsMap[i, j].Text = (number*2).ToString();
+                                       labelsMap[i, k].Text = string.Empty;
+                                   }
+                                   break;
+                               }
+                           } 
+                       }
+                   }
+               }
+               for (int i = 0; i < mapSize; i++)
+               {
+                   for (int j = 0; j < mapSize; j++)
+                   {
+                       if (labelsMap[i, j].Text == string.Empty)
+                       {
+                           for (int k = j - 1; k >= 0; k--)  
+                           {
+                               if (labelsMap[i, k].Text != string.Empty)
+                               {
+
+                                   labelsMap[i, j].Text = labelsMap[i, k].Text;
+                                   labelsMap[i, k].Text = string.Empty;
+                               }
+                           }
+                           break;
+                       }
+                   }
+               }
+           }
+
+               if (e.KeyCode == Keys.Left)
+               {
+                   MessageBox.Show("левая стрелка нажата");
+               }
+               if (e.KeyCode == Keys.Up)
+               {
+                   MessageBox.Show("Верхняя стрелка нажата");
+               }
+               if (e.KeyCode == Keys.Down)
+               {
+                   MessageBox.Show("Нижняя стрелка нажата");
+               }
+           GenerateNumber();
+        */
         }
     }
-}
