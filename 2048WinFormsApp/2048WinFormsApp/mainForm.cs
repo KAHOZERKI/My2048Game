@@ -5,6 +5,7 @@ namespace _2048WinFormsApp
         private Label[,] labelsMap;
         private const int mapSize = 4;
         private static Random random = new Random();
+        private int score = 0;
         public mainForm()
         {
             InitializeComponent();
@@ -14,6 +15,11 @@ namespace _2048WinFormsApp
         {
             initMap();
             GenerateNumber();
+            ShowScore();
+        }
+        private void ShowScore()
+        {
+            scoreLabel.Text = score.ToString();
         }
         private void initMap()
         {
@@ -82,6 +88,7 @@ namespace _2048WinFormsApp
                             if (line[j].Text == line[k].Text)
                             {
                                 var number = int.Parse(line[j].Text);
+                                score += number * 2;
                                 line[j].Text = (number * 2).ToString();
                                 line[k].Text = string.Empty;
                             }
@@ -100,14 +107,14 @@ namespace _2048WinFormsApp
                         {
                             line[j].Text = line[k].Text;
                             line[k].Text = string.Empty;
-                            break; 
+                            break;
                         }
                     }
                 }
             }
         }
 
-        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        private void mainForm_KeyDown(object sender, KeyEventArgs e) // это тоже сделал с помощью ИИ,т.к. лень было писать 4 раза один и тотже код
         {
             bool moved = false;
 
@@ -117,14 +124,11 @@ namespace _2048WinFormsApp
 
                 for (int j = 0; j < mapSize; j++)
                 {
-                    // Выбираем ячейки в зависимости от нажатой клавиши
-                    if (e.KeyCode == Keys.Right) line[j] = labelsMap[i, j];          // Строка i, слева направо
-                    else if (e.KeyCode == Keys.Left) line[j] = labelsMap[i, 3 - j];  // Строка i, справо налево (реверс)
-                    else if (e.KeyCode == Keys.Down) line[j] = labelsMap[j, i];      // Столбец i, сверху вниз
-                    else if (e.KeyCode == Keys.Up) line[j] = labelsMap[3 - j, i];    // Столбец i, снизу вверх
+                    if (e.KeyCode == Keys.Right) line[j] = labelsMap[i, j];
+                    else if (e.KeyCode == Keys.Left) line[j] = labelsMap[i, 3 - j];
+                    else if (e.KeyCode == Keys.Down) line[j] = labelsMap[j, i];
+                    else if (e.KeyCode == Keys.Up) line[j] = labelsMap[3 - j, i];
                 }
-
-                // Если нажата одна из стрелок, обрабатываем "линию"
                 if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
                     e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
                 {
@@ -132,8 +136,10 @@ namespace _2048WinFormsApp
                     moved = true;
                 }
             }
-
-            if (moved) GenerateNumber();
+            if (moved)
+                
+            GenerateNumber();
+            ShowScore();
         }
         /*   if (e.KeyCode == Keys.Right)
            {
@@ -194,5 +200,5 @@ namespace _2048WinFormsApp
                }
            GenerateNumber();
         */
-        }
     }
+}
