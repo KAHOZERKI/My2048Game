@@ -137,68 +137,95 @@ namespace _2048WinFormsApp
                 }
             }
             if (moved)
-                
             GenerateNumber();
             ShowScore();
         }
+        private void ResetGame()
+        {
+            score = 0;
+            ShowScore();
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    labelsMap[i, j].Text = string.Empty;
+                    labelsMap[i, j].BackColor = SystemColors.AppWorkspace; //это ии подготовил решение для будущего изменения цвета в норму
+                }
+            }
+            GenerateNumber();
+        }
+        private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void правилаИгрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //тут будут правила игры,надо бы сделать для них RulesStorage;
+        }
+
+        private void начатьЗановоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetGame();
+        }
         /*   if (e.KeyCode == Keys.Right)
-           {
-               for (int i = 0; i < mapSize; i++)
-               {
-                   for (int j = 0; j < mapSize; j++)
-                   {
-                       if (labelsMap[i, j].Text!= string.Empty)
-                       {
-                           for (int k = j - 1; k >= 0; k--)
-                           {
-                               if (labelsMap[i, k].Text != string.Empty)
-                               {
-                                   if (labelsMap[i, j].Text == labelsMap[i, k].Text)
-                                   { 
-                                       var number = int.Parse(labelsMap[i, j].Text);
-                                       labelsMap[i, j].Text = (number*2).ToString();
-                                       labelsMap[i, k].Text = string.Empty;
-                                   }
-                                   break;
-                               }
-                           } 
-                       }
-                   }
-               }
-               for (int i = 0; i < mapSize; i++)
-               {
-                   for (int j = 0; j < mapSize; j++)
-                   {
-                       if (labelsMap[i, j].Text == string.Empty)
-                       {
-                           for (int k = j - 1; k >= 0; k--)  
-                           {
-                               if (labelsMap[i, k].Text != string.Empty)
-                               {
+{
+for (int i = 0; i < mapSize; i++)
+{
+for (int j = 0; j < mapSize; j++)
+{
+if (labelsMap[i, j].Text!= string.Empty)
+{
+for (int k = j - 1; k >= 0; k--)
+{
+    if (labelsMap[i, k].Text != string.Empty)
+    {
+        if (labelsMap[i, j].Text == labelsMap[i, k].Text)
+        { 
+            var number = int.Parse(labelsMap[i, j].Text);
+            labelsMap[i, j].Text = (number*2).ToString();
+            labelsMap[i, k].Text = string.Empty;
+        }
+        break;
+    }
+} 
+}
+}
+}
+for (int i = 0; i < mapSize; i++)
+{
+for (int j = 0; j < mapSize; j++)
+{
+if (labelsMap[i, j].Text == string.Empty)
+{
+for (int k = j - 1; k >= 0; k--)  
+{
+    if (labelsMap[i, k].Text != string.Empty)
+    {
 
-                                   labelsMap[i, j].Text = labelsMap[i, k].Text;
-                                   labelsMap[i, k].Text = string.Empty;
-                               }
-                           }
-                           break;
-                       }
-                   }
-               }
-           }
+        labelsMap[i, j].Text = labelsMap[i, k].Text;
+        labelsMap[i, k].Text = string.Empty;
+    }
+}
+break;
+}
+}
+}
+}
 
-               if (e.KeyCode == Keys.Left)
-               {
-                   MessageBox.Show("левая стрелка нажата");
-               }
-               if (e.KeyCode == Keys.Up)
-               {
-                   MessageBox.Show("Верхняя стрелка нажата");
-               }
-               if (e.KeyCode == Keys.Down)
-               {
-                   MessageBox.Show("Нижняя стрелка нажата");
-               }
-           GenerateNumber();
-        */
+if (e.KeyCode == Keys.Left)
+{
+MessageBox.Show("левая стрелка нажата");
+}
+if (e.KeyCode == Keys.Up)
+{
+MessageBox.Show("Верхняя стрелка нажата");
+}
+if (e.KeyCode == Keys.Down)
+{
+MessageBox.Show("Нижняя стрелка нажата");
+}
+GenerateNumber();
+*/
     }
 }
