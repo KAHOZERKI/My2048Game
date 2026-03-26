@@ -1,6 +1,6 @@
 ﻿namespace _2048WinFormsApp
 {
-    partial class mainForm
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -94,7 +94,7 @@
             правилаИгрыToolStripMenuItem.Text = "Правила игры";
             правилаИгрыToolStripMenuItem.Click += правилаИгрыToolStripMenuItem_Click;
             // 
-            // mainForm
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -103,7 +103,7 @@
             Controls.Add(totalScore);
             Controls.Add(menu);
             MainMenuStrip = menu;
-            Name = "mainForm";
+            Name = "MainForm";
             Text = "2048";
             Load += Form1_Load;
             KeyDown += mainForm_KeyDown;

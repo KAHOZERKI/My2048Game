@@ -51,7 +51,7 @@ namespace _2048WinFormsApp
         }
         private void GenerateNumber()
         {
-            List<(int row, int col)> emptyCells = new List<(int, int)>(); //тут ии подсказал сделать Лист с 2мя переменными.
+            List<(int row, int col)> emptyCells = new List<(int, int)>(); 
             for (int r = 0; r < mapSize; r++)
             {
                 for (int c = 0; c < mapSize; c++)
@@ -66,7 +66,7 @@ namespace _2048WinFormsApp
             {
                 int randomIndex = random.Next(0, emptyCells.Count);
 
-                var (targetRow, targetCol) = emptyCells[randomIndex]; // а вот тут магическая деконструкция кортежа
+                var (targetRow, targetCol) = emptyCells[randomIndex]; 
                 labelsMap[targetRow, targetCol].Text = GenerateDigit();
             }
         }
@@ -114,7 +114,7 @@ namespace _2048WinFormsApp
             }
         }
 
-        private void mainForm_KeyDown(object sender, KeyEventArgs e) // это тоже сделал с помощью ИИ,т.к. лень было писать 4 раза один и тотже код
+        private void mainForm_KeyDown(object sender, KeyEventArgs e) 
         {
             bool moved = false;
 
@@ -149,7 +149,7 @@ namespace _2048WinFormsApp
                 for (int j = 0; j < mapSize; j++)
                 {
                     labelsMap[i, j].Text = string.Empty;
-                    labelsMap[i, j].BackColor = SystemColors.AppWorkspace; //это ии подготовил решение для будущего изменения цвета в норму
+                    labelsMap[i, j].BackColor = SystemColors.AppWorkspace; 
                 }
             }
             GenerateNumber();
@@ -161,71 +161,14 @@ namespace _2048WinFormsApp
 
         private void правилаИгрыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //тут будут правила игры,надо бы сделать для них RulesStorage;
+            RulsStorage.Load();
+            string message = string.Join("\n", RulsStorage.Rules);
+            MessageBox.Show(message, "Правила игры 2048", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void начатьЗановоToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResetGame();
         }
-        /*   if (e.KeyCode == Keys.Right)
-{
-for (int i = 0; i < mapSize; i++)
-{
-for (int j = 0; j < mapSize; j++)
-{
-if (labelsMap[i, j].Text!= string.Empty)
-{
-for (int k = j - 1; k >= 0; k--)
-{
-    if (labelsMap[i, k].Text != string.Empty)
-    {
-        if (labelsMap[i, j].Text == labelsMap[i, k].Text)
-        { 
-            var number = int.Parse(labelsMap[i, j].Text);
-            labelsMap[i, j].Text = (number*2).ToString();
-            labelsMap[i, k].Text = string.Empty;
-        }
-        break;
-    }
-} 
-}
-}
-}
-for (int i = 0; i < mapSize; i++)
-{
-for (int j = 0; j < mapSize; j++)
-{
-if (labelsMap[i, j].Text == string.Empty)
-{
-for (int k = j - 1; k >= 0; k--)  
-{
-    if (labelsMap[i, k].Text != string.Empty)
-    {
-
-        labelsMap[i, j].Text = labelsMap[i, k].Text;
-        labelsMap[i, k].Text = string.Empty;
-    }
-}
-break;
-}
-}
-}
-}
-
-if (e.KeyCode == Keys.Left)
-{
-MessageBox.Show("левая стрелка нажата");
-}
-if (e.KeyCode == Keys.Up)
-{
-MessageBox.Show("Верхняя стрелка нажата");
-}
-if (e.KeyCode == Keys.Down)
-{
-MessageBox.Show("Нижняя стрелка нажата");
-}
-GenerateNumber();
-*/
     }
 }
