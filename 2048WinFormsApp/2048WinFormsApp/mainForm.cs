@@ -1,19 +1,19 @@
 namespace _2048WinFormsApp
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
         private Label[,] labelsMap;
         private const int mapSize = 4;
         private static Random random = new Random();
         private int score = 0;
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            initMap();
+            InitMap();
             GenerateNumber();
             ShowScore();
         }
@@ -21,7 +21,7 @@ namespace _2048WinFormsApp
         {
             scoreLabel.Text = score.ToString();
         }
-        private void initMap()
+        private void InitMap()
         {
             labelsMap = new Label[mapSize, mapSize];
             for (int i = 0; i < mapSize; i++)
