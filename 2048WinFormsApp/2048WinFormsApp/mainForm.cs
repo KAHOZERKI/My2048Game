@@ -71,9 +71,17 @@ namespace _2048WinFormsApp
             }
         }
         private string GenerateDigit()
-        {
-            int[] numbers = { 2, 4 };
-            return numbers[random.Next(0, numbers.Length)].ToString();
+        {            
+            int chance = random.Next(1, 101);
+
+            if (chance <= 75)
+            {
+                return "2";
+            }
+            else
+            {
+                return "4";
+            }
         }
         private void ProcessLine(Label[] line)
         {
