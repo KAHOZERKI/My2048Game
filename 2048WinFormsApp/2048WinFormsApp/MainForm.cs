@@ -133,9 +133,9 @@ namespace _2048WinFormsApp
                 for (int j = 0; j < mapSize; j++)
                 {
                     if (e.KeyCode == Keys.Right) line[j] = labelsMap[i, j];
-                    else if (e.KeyCode == Keys.Left) line[j] = labelsMap[i, 3 - j];
+                    else if (e.KeyCode == Keys.Left) line[j] = labelsMap[i, mapSize-1 - j];
                     else if (e.KeyCode == Keys.Down) line[j] = labelsMap[j, i];
-                    else if (e.KeyCode == Keys.Up) line[j] = labelsMap[3 - j, i];
+                    else if (e.KeyCode == Keys.Up) line[j] = labelsMap[mapSize - 1 - j, i];
                 }
                 if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
                     e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
