@@ -35,6 +35,8 @@
             начатьЗановоToolStripMenuItem = new ToolStripMenuItem();
             выйтиToolStripMenuItem = new ToolStripMenuItem();
             правилаИгрыToolStripMenuItem = new ToolStripMenuItem();
+            labelResult = new Label();
+            bestResultScoreLabel = new Label();
             menu.SuspendLayout();
             SuspendLayout();
             // 
@@ -94,11 +96,31 @@
             правилаИгрыToolStripMenuItem.Text = "Правила игры";
             правилаИгрыToolStripMenuItem.Click += правилаИгрыToolStripMenuItem_Click;
             // 
+            // labelResult
+            // 
+            labelResult.AutoSize = true;
+            labelResult.Location = new Point(164, 22);
+            labelResult.Name = "labelResult";
+            labelResult.Size = new Size(109, 15);
+            labelResult.TabIndex = 4;
+            labelResult.Text = "Лучший Результат";
+            // 
+            // bestResultScoreLabel
+            // 
+            bestResultScoreLabel.AutoSize = true;
+            bestResultScoreLabel.Location = new Point(299, 23);
+            bestResultScoreLabel.Name = "bestResultScoreLabel";
+            bestResultScoreLabel.Size = new Size(13, 15);
+            bestResultScoreLabel.TabIndex = 5;
+            bestResultScoreLabel.Text = "0";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(bestResultScoreLabel);
+            Controls.Add(labelResult);
             Controls.Add(scoreLabel);
             Controls.Add(totalScore);
             Controls.Add(menu);
@@ -122,5 +144,7 @@
         private ToolStripMenuItem начатьЗановоToolStripMenuItem;
         private ToolStripMenuItem выйтиToolStripMenuItem;
         private ToolStripMenuItem правилаИгрыToolStripMenuItem;
+        private Label labelResult;
+        private Label bestResultScoreLabel;
     }
 }

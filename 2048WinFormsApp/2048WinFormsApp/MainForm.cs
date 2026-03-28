@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic;
+
 namespace _2048WinFormsApp
 {
     public partial class MainForm : Form
@@ -6,6 +8,7 @@ namespace _2048WinFormsApp
         private const int mapSize = 4;
         private static Random random = new Random();
         private int score = 0;
+        private User user;
         public MainForm()
         {
             InitializeComponent();
@@ -13,13 +16,30 @@ namespace _2048WinFormsApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            GetUserName();
             InitMap();
             GenerateNumber();
             ShowScore();
+            bestResultScoreLabel.Text = ScoreStorage.GetGlobalBestScore().ToString();
+            this.Focus();
         }
         private void ShowScore()
         {
             scoreLabel.Text = score.ToString();
+        }
+        public void GetUserName()
+        {
+            string name = Interaction.InputBox("Пожалуйста, введите ваше имя", "Вход в игру 2048", "Игрок 1");
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Application.Exit(); 
+            }
+            else
+            {
+                user = new User();
+                user.Name = name;
+            }
         }
         private void InitMap()
         {
@@ -145,8 +165,61 @@ namespace _2048WinFormsApp
                 }
             }
             if (moved)
-            GenerateNumber();
-            ShowScore();
+            {
+                GenerateNumber();
+                ShowScore();
+                if (IsWin())
+                {
+                    MessageBox.Show($"Поздравляем, {user.Name}! Вы собрали 2048!");
+                    bestResultScoreLabel.Text = ScoreStorage.GetGlobalBestScore().ToString();
+                    ResetGame();
+                }
+                else if (IsGameOver())
+                {
+                    user.Score=score;
+                    ScoreStorage.AddRecord(user);
+                    bestResultScoreLabel.Text = ScoreStorage.GetGlobalBestScore().ToString();
+                    MessageBox.Show($"Игра окончена, {user.Name}! Ваши очки: {user.Score}");
+                    ResetGame();
+                }
+            }
+
+            }
+        private bool IsGameOver()
+        {
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    if (labelsMap[i, j].Text == string.Empty)
+                        return false; 
+                }
+            }
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize - 1; j++)
+                {
+                    if (labelsMap[i, j].Text == labelsMap[i, j + 1].Text)
+                        return false; 
+                }
+            }
+            for (int j = 0; j < mapSize; j++)
+            {
+                for (int i = 0; i < mapSize - 1; i++)
+                {
+                    if (labelsMap[i, j].Text == labelsMap[i + 1, j].Text)
+                        return false; 
+                }
+            }
+            return true;
+        }
+        private bool IsWin()
+        {
+            foreach (var label in labelsMap)
+            {
+                if (label.Text == "2048") return true;
+            }
+            return false;
         }
         private void ResetGame()
         {
