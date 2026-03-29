@@ -79,6 +79,29 @@ namespace _2048WinFormsApp
             label.TextAlign = ContentAlignment.MiddleCenter;
             return label;
         }
+        private void UpdateMapColors()
+        {
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    Label label = labelsMap[i, j];
+                    switch (label.Text)
+                    {
+                        case "": label.BackColor = Color.Silver; break;
+                        case "2": label.BackColor = Color.White; break;
+                        case "4": label.BackColor = Color.LemonChiffon; break;
+                        case "8": label.BackColor = Color.Orange; break;
+                        case "16": label.BackColor = Color.Coral; break;
+                        case "32": label.BackColor = Color.Tomato; break;
+                        case "64": label.BackColor = Color.OrangeRed; break;
+                        case "128": label.BackColor = Color.Gold; break;
+                        case "256": label.BackColor = Color.Yellow; break;
+                        default: label.BackColor = Color.Red; break; 
+                    }
+                }
+            }
+        }
         private void GenerateNumber()
         {
             List<(int row, int col)> emptyCells = new List<(int, int)>(); 
@@ -98,6 +121,7 @@ namespace _2048WinFormsApp
 
                 var (targetRow, targetCol) = emptyCells[randomIndex]; 
                 labelsMap[targetRow, targetCol].Text = GenerateDigit();
+                
             }
         }
         private string GenerateDigit()
@@ -178,6 +202,7 @@ namespace _2048WinFormsApp
             {
                 GenerateNumber();
                 ShowScore();
+                UpdateMapColors();
                 if (IsWin())
                 {
                     MessageBox.Show($"Поздравляем, {user.Name}! Вы собрали 2048!");
