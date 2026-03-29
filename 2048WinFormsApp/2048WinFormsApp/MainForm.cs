@@ -5,7 +5,7 @@ namespace _2048WinFormsApp
     public partial class MainForm : Form
     {
         private Label[,] labelsMap;
-        private const int mapSize = 4;
+        private int mapSize = 4;
         private static Random random = new Random();
         private int score = 0;
         private User user;
@@ -17,6 +17,7 @@ namespace _2048WinFormsApp
         private void Form1_Load(object sender, EventArgs e)
         {
             GetUserName();
+           this.mapSize= GetMapSize();
             InitMap();
             GenerateNumber();
             ShowScore();
@@ -40,6 +41,15 @@ namespace _2048WinFormsApp
                 user = new User();
                 user.Name = name;
             }
+        }
+        private int GetMapSize()
+        {
+            string input=Interaction.InputBox("Пожалуйста, выберите размер карты", "mapsize");
+            if (int.TryParse(input, out int result) && result > 1)
+            {
+                return result;
+            }
+            return 4;
         }
         private void InitMap()
         {
