@@ -1,4 +1,3 @@
-using Microsoft.VisualBasic;
 using System.Text.Json;
 
 namespace _2048WinFormsApp
@@ -7,8 +6,7 @@ namespace _2048WinFormsApp
     {
         private const string FilePath = "score.json";
         public static List<User> HighScores { get; set; } = new List<User>();
-        static ScoreStorage() //статистический конструктор я создал,чтобы он вызваля при первом обращении к классу,
-                              //чтобы не прописывать это в mainform load
+        static ScoreStorage() 
 
         {
             if (File.Exists(FilePath))
