@@ -22,13 +22,6 @@ namespace _2048WinFormsApp
                 Rules = GetRuls();
             }
         }
-
-        public static void Save()
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(Rules, options);
-            File.WriteAllText(FilePath, json);
-        }
        static List<string> GetRuls()
         {
             return new List <string> {
